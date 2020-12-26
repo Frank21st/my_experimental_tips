@@ -7,6 +7,8 @@ for mac:  gcc -dumpversion
 
 ### 2 commands to manager anaconda env 
 
+https://www.cnblogs.com/sench/p/9541450.html
+
 there will be errors when you have many envs and activate one of them then use jupyter notebook. the following commands can solve it.
 
 conda activate env_name
