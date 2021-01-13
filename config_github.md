@@ -2,9 +2,9 @@ the following steps are used to config github
 
 s1    config the user.name and user.email.
 
-	git config --user.name 'your_user_name_on_github_website'
+	git config --global user.name 'your_user_name_on_github_website'
 
-	git config --user.email 'you_email_on_github_website@email_server.com'
+	git config --global user.email 'you_email_on_github_website@email_server.com'
 
 
 s2    generate ssh
