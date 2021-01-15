@@ -1,96 +1,98 @@
 本文记载安装Ubuntu时遇到的问题解决办法及安装后需要安装的软件等。
 
 一、安装显卡驱动
-		电脑只有一个NVIDIA的独立显卡，刚刚安装时屏幕分辨率低，原因在于没有安装和启用NVIDIA的显卡驱动；
-		解决步骤：
-		1、禁用Ubuntu系统自带的显卡驱动；
-				a、在/etc/modprobe.d/blacklist.conf里添加如下内容至末尾：
+	电脑只有一个NVIDIA的独立显卡，刚刚安装时屏幕分辨率低，原因在于没有安装和启用NVIDIA的显卡驱动；
+	解决步骤：
+	1、禁用Ubuntu系统自带的显卡驱动；
+		a、在/etc/modprobe.d/blacklist.conf里添加如下内容至末尾：
 		command: sudo gedit /etc/modprobe.d/blacklist.conf（该命令打开文件）
-		-----------------------------------------------------------
-					blacklist nouveau
-					blacklist lbm-nouveau
-					options nouveau modeset=0
-					alias nouveau off
-					alias lbm-nouveau off
-		----------------------------------------------------------
+	-----------------------------------------------------------
+			blacklist nouveau
+			blacklist lbm-nouveau
+			options nouveau modeset=0
+			alias nouveau off
+			alias lbm-nouveau off
+	----------------------------------------------------------
 		然后保存并关闭文件；
-				b 调用指令禁止nouveau
-echo options nouveau modeset=0 | sudo tee -a /etc/modprobe.d/nouveau-kms.conf
-				c、执行  sudo update-initramfs -u  命令；
-				d、重启后用lsmod | grep nouveau,如果没有任何输出说明禁用成功；
-					（注：我没有执行该命令；）
-		2、运行命令： sudo ubuntu-drivers autoinstall
-			运行命令以验证是否安装成功：nvidia-smi
-			如果显示显卡相关信息则表示安装成功；
-		3、如果步骤2没有成功，则添加源然后安装新版本的驱动；
-					添加源：  	sudo add-apt-repository ppa:graphics-drivers/ppa
-										sudo apt update
-					然后执行：ubuntu-drivers devices
-					会显示：
-			==============================================================
-				== /sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0 ==
-				modalias : pci:v000010DEd00002182sv00007377sd00001621bc03sc00i00
-				vendor   : NVIDIA Corporation
-				driver   : nvidia-driver-430 - third-party free
-				driver   : nvidia-driver-435 - third-party free recommended
-				driver   : xserver-xorg-video-nouveau - distro free builtin
-			===============================================================
+		
+		b 调用指令禁止nouveau
+		echo options nouveau modeset=0 | sudo tee -a /etc/modprobe.d/nouveau-kms.conf
+		c、执行  sudo update-initramfs -u  命令；
+		d、重启后用
+			lsmod | grep nouveau
+			,如果没有任何输出说明禁用成功；（注：我没有执行该命令；）
+	2、运行命令： sudo ubuntu-drivers autoinstall
+		运行命令以验证是否安装成功：nvidia-smi
+		如果显示显卡相关信息则表示安装成功；
+	3、如果步骤2没有成功，则添加源然后安装新版本的驱动；
+			添加源：  	sudo add-apt-repository ppa:graphics-drivers/ppa
+					sudo apt update
+			然后执行：ubuntu-drivers devices
+				会显示：
+		==============================================================
+			== /sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0 ==
+			modalias : pci:v000010DEd00002182sv00007377sd00001621bc03sc00i00
+			vendor   : NVIDIA Corporation
+			driver   : nvidia-driver-430 - third-party free
+			driver   : nvidia-driver-435 - third-party free recommended
+			driver   : xserver-xorg-video-nouveau - distro free builtin
+		===============================================================
 
 
-					最后安装：sudo apt install nvidia-driver-430
-							注：若选择435，实际执行后发现安装不成功，而430则能成功；
-					重启后显示正常了；
+		最后安装：sudo apt install nvidia-driver-430
+			注：若选择435，实际执行后发现安装不成功，而430则能成功；
+		重启后显示正常了；
 
 		（本解决办法网址：https://www.jianshu.com/p/9384af4896f3）
 	×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
 		另有网友（https://blog.csdn.net/roach_zfq/article/details/53883976）发现：
-					ubuntu安装时如果勾选第三方驱动会让你输入一个密码，边上有个解释的按钮点开可以看到详细的原因，
-					大概意思就是主板设置了uefi安全启动与ubuntu安装的的第三方驱动会冲突，输入这个密码ubuntu会帮助你禁用
-					uefi的secure boot，开机时输入这个密码确认是本人操作，但我开机后从来没输过这个密码，安装玩重启时（或
-					者后来自己安装第三方驱动如显卡网卡驱动重启时）倒是比正常开机流程多了一个界面，
-					让你....干嘛的也没在意 每次都enter过去了。
+				ubuntu安装时如果勾选第三方驱动会让你输入一个密码，边上有个解释的按钮点开可以看到详细的原因，
+				大概意思就是主板设置了uefi安全启动与ubuntu安装的的第三方驱动会冲突，输入这个密码ubuntu会帮助你禁用
+				uefi的secure boot，开机时输入这个密码确认是本人操作，但我开机后从来没输过这个密码，安装玩重启时（或
+				者后来自己安装第三方驱动如显卡网卡驱动重启时）倒是比正常开机流程多了一个界面，
+				让你....干嘛的也没在意 每次都enter过去了。
 	××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
 
 
 
 二、安装搜狗输入法
 
-		1、安装Fcitx输入框架
-		command：  sudo apt install fcitx
-		2、官网下载Linux版本搜狗输入法
-		3、安装deb文件
-				使用右键的software...安装或者目录下命令行安装：
-														sudo dpkg -i sogo...deb
-				安装过程中如果出错，运行命令：
-														sudo apt  --fix-broken install
-				[注意：建议使用software安装，因为出现过命令行安装后无法输出汉字而只出英文]
-		4、settings ——> Region& Language ——> manage installed languages，
-			而后 keyboard input method systems: fcitx
-					点击 apply system-wide;
-		5、重启设备，登陆后在右上角出现一个键盘标志，点击进入，选择Configure Current Input Method
-					进入下面的Input Method界面后，选择+号
-					进入到Add input method界面，将下面的Only Show Current Language 点掉后，
-					在搜索栏搜索搜狗拼音，选中之后进行添加；
-					成功之后，打开浏览器随便输入，可以看到输入结果。
-		本文网址：https://blog.csdn.net/lupengCSDN/article/details/80279177
+	1、安装Fcitx输入框架
+	command：  sudo apt install fcitx
+	2、官网下载Linux版本搜狗输入法
+	3、安装deb文件
+			使用右键的software...安装或者目录下命令行安装：
+							sudo dpkg -i sogo...deb
+			安装过程中如果出错，运行命令：
+							sudo apt  --fix-broken install
+			[注意：建议使用software安装，因为出现过命令行安装后无法输出汉字而只出英文]
+	4、settings ——> Region& Language ——> manage installed languages，
+		而后 keyboard input method systems: fcitx
+		点击 apply system-wide;
+	5、重启设备，登陆后在右上角出现一个键盘标志，点击进入，选择Configure Current Input Method
+		进入下面的Input Method界面后，选择+号
+		进入到Add input method界面，将下面的Only Show Current Language 点掉后，
+		在搜索栏搜索搜狗拼音，选中之后进行添加；
+		成功之后，打开浏览器随便输入，可以看到输入结果。
+	本文网址：https://blog.csdn.net/lupengCSDN/article/details/80279177
 
 三、更改gedit的背景颜色
-				Ubuntu 中Gedit可以通过选择：上部的 Text Editor->Preference->字体和颜色->配色方案，进行设置。
-				其配色方案文件的存放路径为：
-				/usr/share/gtksourceview-X.0/styles
-				默认共有以下5个配色方案文件：
-				classic.xml、cobalt.xml、kate.xml、oblivion.xml、tango.xml
-				可以直接修改如上的文件，来改变配色，修改好之后重启Gedit就可以看到效果了。也可以添加自定义的配色方案文件。
+	Ubuntu 中Gedit可以通过选择：上部的 Text Editor->Preference->字体和颜色->配色方案，进行设置。
+	其配色方案文件的存放路径为：
+		/usr/share/gtksourceview-X.0/styles
+	默认共有以下5个配色方案文件：
+		classic.xml、cobalt.xml、kate.xml、oblivion.xml、tango.xml
+	可以直接修改如上的文件，来改变配色，修改好之后重启Gedit就可以看到效果了。也可以添加自定义的配色方案文件。
 
-				对gedit来说，这两个网站有比较多的现成的配色方案：
+	对gedit来说，这两个网站有比较多的现成的配色方案：
 
-				http://live.gnome.org/GtkSourceView/StyleSchemes
+		http://live.gnome.org/GtkSourceView/StyleSchemes
 
-				https://github.com/mig/gedit-themes 
+		https://github.com/mig/gedit-themes 
 
 	 ----------------------------------------------
-		本文件夹中有一 darkmacs.xml 文件，为从网上保存下来的配色方案，黑底白色，挺好。
-		另，此链接可能有用：https://www.cnblogs.com/csulennon/p/4198054.html
+	本文件夹中有一 darkmacs.xml 文件，为从网上保存下来的配色方案，黑底白色，挺好。
+	另，此链接可能有用：https://www.cnblogs.com/csulennon/p/4198054.html
 	----------------------------------------------------------------------------
 	
 四、华硕主板禁用UEFI安全启动（Disable Secure Boot for ASUS Motherboard）
@@ -118,6 +120,8 @@ echo options nouveau modeset=0 | sudo tee -a /etc/modprobe.d/nouveau-kms.conf
 conda config --set auto_activate_base false
 
 
+九 
+	https://blog.csdn.net/fengdu78/article/details/111399289
 
 
 
