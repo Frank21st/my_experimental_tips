@@ -25,7 +25,7 @@ wget -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-py37_
 ### install
 
 
-# 一直按回车然后输入yes
+ 一直按回车然后输入yes
 
 please answer 'yes' or 'no':
 
