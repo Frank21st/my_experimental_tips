@@ -122,6 +122,11 @@ conda config --set auto_activate_base false
 
 https://blog.csdn.net/fengdu78/article/details/111399289
 
+十、Ubuntu关闭anaconda自动进入base虚拟环境
+
+commands:   conda config --set auto_activate_base false
+
+在最新的anaconda安装后将其加入到bashrc中后，会默认自动激活基础环境，上面的命令就是将其自动激活的true更改为false.
 
 
 
