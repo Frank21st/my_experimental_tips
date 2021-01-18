@@ -118,6 +118,10 @@ echo options nouveau modeset=0 | sudo tee -a /etc/modprobe.d/nouveau-kms.conf
 conda config --set auto_activate_base false
 
 
+九、一个配置新机器Ubuntu20.04的较详细教程（含有frp配置部分）
+
+https://blog.csdn.net/fengdu78/article/details/111399289
+
 
 
 
