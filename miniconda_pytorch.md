@@ -55,5 +55,13 @@ Do you wish the installer to initialize Miniconda3 by running conda init? [yes|n
 运行配置信息文件或重启电脑
 
 
+### 4 about remote access jupyter notebook
+
+the usefull website is :
+
+https://zhuanlan.zhihu.com/p/64524822
+
+beside, you need set frpc.ini to mapping  the local port and remote port.
+
 
 
