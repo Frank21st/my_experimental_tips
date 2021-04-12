@@ -1,0 +1,51 @@
+
+##记录租阿里云服务器和配置frp使用内网穿透的经验
+
+一、配置frps
+	参照这个网址[ https://blog.csdn.net/fengdu78/article/details/111399289 ] 2.5节配置frps；
+	此外，配置中设置的端口需要在阿里云的防火墙中开启相应端口，否则无法使用；
+	配置好后，使用 /your/path/frps -c /your/path/frps.ini  命令执行，
+	此时可以在服务器的命令行窗口中看到 frps 在监听 0.0.0.0:xxxx(配置的端口，此端口需要在防火墙中开启）；
+
+二、配置frpc
+	同样参照相同网站，配置frpc.ini，以及运行设置为开机自启动服务；
+	注意，frpc.ini修改需要手动开启，
+	即[ sudo systemctl enable frpc.service ] [ sudo systemctl start frpc.service ]；
+	[ sudo systemctl status frpc.service]查看，running表示成功开启；
+
+三、服务器端 设置开机自动启动frps服务
+	参考网址 [ https://blog.csdn.net/x7418520/article/details/81077652 ] 2 中内容；
+	主要为：
+
+	运行命令行：[ sudo vim /lib/systemd/system/frps.service ]; 
+	在frps.service里写入以下内容
+
+===================================================
+[Unit]
+Description=fraps service
+After=network.target syslog.target
+Wants=network.target
+
+[Service]
+Type=simple
+#启动服务的命令（此处写你的frps的实际安装目录）
+ExecStart=/your/path/frps -c /your/path/frps.ini
+
+[Install]
+WantedBy=multi-user.target
+====================================================
+
+	然后就启动frps  [ sudo systemctl start frps ]
+	再打开自启动 [ sudo systemctl enable frps ]
+
+	如果要重启应用，可以这样，sudo systemctl restart frps
+	如果要停止应用，可以输入，sudo systemctl stop frps
+	如果要查看应用的日志，可以输入，sudo systemctl status frps
+
+四、ssh连接
+	可能会存在这种情况：kex_exchange_identification: ....
+	此时可以运行命令删除已存在的错误指纹密钥 [ ssh-keygen -R "xx.xx.xx.xx"]; xx.xx.xx.xx 为登陆主机的IP地址.
+
+五、更改token密码
+	更改token 密码后,需要重启服务甚至重启系统才能生效，无论是服务端还是客户端，都需要。
+
