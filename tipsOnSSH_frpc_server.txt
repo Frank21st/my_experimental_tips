@@ -45,6 +45,7 @@ WantedBy=multi-user.target
 四、ssh连接
 	可能会存在这种情况：kex_exchange_identification: ....
 	此时可以运行命令删除已存在的错误指纹密钥 [ ssh-keygen -R "xx.xx.xx.xx"]; xx.xx.xx.xx 为登陆主机的IP地址.
+	此外，若台式主机是新安装的Ubuntu，则极有可能没有安装openssh-server.此时，运行命令行[ sudo apt-get install openssh-server ]
 
 五、更改token密码
 	更改token 密码后,需要重启服务甚至重启系统才能生效，无论是服务端还是客户端，都需要。
