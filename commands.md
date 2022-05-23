@@ -17,4 +17,15 @@ conda install nb_conda
 
 then start  jupyter notebook.
 
-### 3   
+### 3  commands to download pdf papers from arxiv.org 
+
+https://zhuanlan.zhihu.com/p/110217113
+
+wget --user-agent=Lynx paper_pdf_urls
+
+eg: wget --user-agent=Lynx https://arxiv.org/pdf/1907.11320v1.pdf
+
+
+### 4 
+
+
