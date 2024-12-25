@@ -1,0 +1,14 @@
+#!/bin/bash
+# ⛓项目永久链接：https://github.com/itzhangbao/remove-repos
+# 
+# 将 DELETE_KOKEN 和 GithubName 都替换为自己的
+DELETE_KOKEN="ghp_"
+GithubName="name"
+
+names=("Awesome-LLM" "Awesome-LLM2")
+
+for repName in  "${names[@]}";
+do
+    echo "Delete "$repName
+    curl -XDELETE -H "Authorization: token ${DELETE_KOKEN}" https://api.github.com/repos/${GithubName}/${repName}
+done
